@@ -27,19 +27,17 @@ class VoluntaryWalk extends Walk {
     required this.startDate,
     required this.startTime,
     required this.endTime,
-  })
-      : super(
-      id: id,
-      name: name,
-      location: location,
-      theme: theme,
-      tags: tags,
-      ratingUp: ratingUp,
-      distance: distance,
-      time: time,
-      coordinate: coordinate
-  );
-  
+  }) : super(
+            id: id,
+            name: name,
+            location: location,
+            theme: theme,
+            tags: tags,
+            ratingUp: ratingUp,
+            distance: distance,
+            time: time,
+            coordinate: coordinate);
+
   factory VoluntaryWalk.fromData(VoluntaryWalkData data, Walk walk) {
     return VoluntaryWalk(
         id: walk.id,
@@ -56,7 +54,6 @@ class VoluntaryWalk extends Walk {
         ratingUp: walk.ratingUp,
         distance: walk.distance,
         time: walk.time,
-        coordinate: walk.coordinate
-    );
+        coordinate: walk.coordinate);
   }
 }

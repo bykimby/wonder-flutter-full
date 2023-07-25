@@ -9,7 +9,6 @@ import 'package:wonder_flutter/app/data/models/voluntary_walk_data_model.dart';
 import 'package:wonder_flutter/app/data/providers/walk_provider.dart';
 
 class VoluntaryWalkProvider extends GetLifeCycle {
-
   static const Map<String, WalkType> themeToWalkTypeMap = {
     '도시락 배달 봉사': WalkType.elderlyDeliverWalk,
     '유기견 산책': WalkType.dogWalk,
@@ -22,11 +21,10 @@ class VoluntaryWalkProvider extends GetLifeCycle {
   bool _hasPendingPostRequest = false;
 
   @override
-  void onInit() {
-  }
+  void onInit() {}
 
-
-  Future<Map<WalkType, List<VoluntaryWalk>>> getVoluntaryWalksClassifiedByType() async {
+  Future<Map<WalkType, List<VoluntaryWalk>>>
+      getVoluntaryWalksClassifiedByType() async {
     var voluntaryWalks = await getVoluntaryWalks().catchError(((error) {
       return <VoluntaryWalk>[];
     }));
@@ -54,7 +52,9 @@ class VoluntaryWalkProvider extends GetLifeCycle {
     try {
       var response = await _httpProvider.httpGet(Constants.reservationUrl);
       if (response.success) {
-        var voluntaryDataList = response.data.map<VoluntaryWalkData>((json) => VoluntaryWalkData.fromJson(json)).toList();
+        var voluntaryDataList = response.data
+            .map<VoluntaryWalkData>((json) => VoluntaryWalkData.fromJson(json))
+            .toList();
         var bookmarkList = await _parseVoluntaryData(voluntaryDataList);
 
         // _hasPendingRequest = false;
@@ -78,7 +78,8 @@ class VoluntaryWalkProvider extends GetLifeCycle {
     _hasPendingPostRequest = true;
 
     try {
-      var response = await _httpProvider.httpPost('${Constants.reservationUrl}/$voluntaryWorkId', {});
+      var response = await _httpProvider
+          .httpPost('${Constants.reservationUrl}/$voluntaryWorkId', {});
       if (response.success) {
         _hasPendingPostRequest = false;
         return response.data['reservationId'];
@@ -95,7 +96,8 @@ class VoluntaryWalkProvider extends GetLifeCycle {
     return Future.error(errorMessage ?? 'Unknown Error.');
   }
 
-  Future<List<VoluntaryWalk>> _parseVoluntaryData(List<VoluntaryWalkData> voluntaryDataList) async {
+  Future<List<VoluntaryWalk>> _parseVoluntaryData(
+      List<VoluntaryWalkData> voluntaryDataList) async {
     var voluntaryWalkList = <VoluntaryWalk>[];
     List<Future<Walk?>> futures = [];
 
@@ -106,7 +108,8 @@ class VoluntaryWalkProvider extends GetLifeCycle {
     var walks = await Future.wait(futures);
     for (int i = 0; i < walks.length; i++) {
       if (walks[i] != null) {
-        voluntaryWalkList.add(VoluntaryWalk.fromData(voluntaryDataList[i], walks[i]!));
+        voluntaryWalkList
+            .add(VoluntaryWalk.fromData(voluntaryDataList[i], walks[i]!));
       }
     }
     voluntaryWalkList.sort((a, b) => a.id.compareTo(b.id));

@@ -26,7 +26,7 @@ part 'app_routes.dart';
 abstract class AppPages {
   const AppPages._();
 
-  static const INITIAL = Routes.LOGIN;
+  static const INITIAL = Routes.WALK_TRACK;
 
   static final routes = [
     GetPage(

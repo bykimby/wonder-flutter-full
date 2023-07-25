@@ -3,9 +3,13 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image/image.dart' as img;
 import 'package:image_picker/image_picker.dart';
+import 'package:wonder_flutter/app/data/enums/walk_type_enum.dart';
+import 'package:wonder_flutter/app/data/providers/walk_provider.dart';
 import '../controllers/camera_classifier.dart';
 import '../views/camera_view.dart';
 import 'package:get/get.dart';
+import '../../../data/providers/voluntary_walk_provider.dart';
+import 'package:wonder_flutter/app/data/models/adapter_models/voluntary_walk_model.dart';
 
 const _labelsFileName = 'assets/ai_model/labels.txt';
 const _modelFileName = 'assets/ai_model/model.tflite';
@@ -27,10 +31,10 @@ class _CameraRecogniserState extends State<CameraRecogniser> {
   bool _isAnalyzing = false;
   final picker = ImagePicker();
   File? _selectedImageFile;
-
-  // Result
+  final _walktype = '';
+  final VoluntaryWalkProvider _voluntaryWalkProvider = VoluntaryWalkProvider.to;
   _ResultStatus _resultStatus = _ResultStatus.notStarted;
-  String _plantLabel = ''; // Name of Error Message
+  String _resultLabel = ''; // Name of Error Message
   double _accuracy = 0.0;
 
   late Classifier _classifier;
@@ -168,24 +172,32 @@ class _CameraRecogniserState extends State<CameraRecogniser> {
     final result = resultCategory.score >= 0.5
         ? _ResultStatus.found
         : _ResultStatus.notFound;
-    final plantLabel = resultCategory.label;
+    final _label = resultCategory.label;
     final accuracy = resultCategory.score;
 
     _setAnalyzing(false);
 
     setState(() {
       _resultStatus = result;
-      _plantLabel = plantLabel;
+      _resultLabel = _label;
       _accuracy = accuracy;
     });
   }
 
   Widget _buildResultView() {
     var title = '';
-
+    var _nowWalkType = '';
+    final _walkType =
+        _voluntaryWalkProvider.getVoluntaryWalksClassifiedByType();
+    if (_walkType == WalkType.elderlyDeliverWalk) {
+      _nowWalkType = 'dosirak';
+    } else if (_walktype == WalkType.dogWalk) {
+      _nowWalkType = 'dog';
+    }
     if (_resultStatus == _ResultStatus.notFound) {
       title = 'Fail to recognise';
-    } else if (_resultStatus == _ResultStatus.found) {
+    } else if (_resultStatus == _ResultStatus.found &&
+        _nowWalkType == _resultLabel) {
       title = '인증에 성공했습니다!';
       Get.back();
     } else {
