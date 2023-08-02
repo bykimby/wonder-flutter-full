@@ -43,7 +43,8 @@ class WalkTrackView extends GetView<WalkTrackController> {
                         mapToolbarEnabled: false,
                         tiltGesturesEnabled: false,
                         rotateGesturesEnabled: false,
-                        minMaxZoomPreference: const MinMaxZoomPreference(12, 18),
+                        minMaxZoomPreference:
+                            const MinMaxZoomPreference(12, 18),
                       );
                     },
                   ),
@@ -51,7 +52,8 @@ class WalkTrackView extends GetView<WalkTrackController> {
               ),
             ),
             Padding(
-              padding: const EdgeInsets.symmetric(horizontal: Constants.defaultHorizontalPadding),
+              padding: const EdgeInsets.symmetric(
+                  horizontal: Constants.defaultHorizontalPadding),
               child: Column(
                 children: [
                   Row(
@@ -100,10 +102,12 @@ class WalkTrackView extends GetView<WalkTrackController> {
                                 ),
                               ),
                               Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 8.0),
-                                child: Text('남음', style: AppTextStyle.mediumStyle.copyWith(
-                                  color: AppColors.black,
-                                )),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 8.0),
+                                child: Text('남음',
+                                    style: AppTextStyle.mediumStyle.copyWith(
+                                      color: AppColors.black,
+                                    )),
                               ),
                             ],
                           ),

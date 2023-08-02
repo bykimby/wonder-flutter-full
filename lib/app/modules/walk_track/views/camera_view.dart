@@ -36,7 +36,7 @@ class CameraView extends StatelessWidget {
       'Please pick a photo',
       style: TextStyle(
           fontSize: 18,
-          color: Color(0xffFFCDD2),
+          color: Colors.white,
           backgroundColor: Color(0xffFF5E5E),
           decoration: TextDecoration.none),
     ));

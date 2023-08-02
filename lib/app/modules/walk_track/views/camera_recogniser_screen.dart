@@ -6,6 +6,7 @@ import 'package:image_picker/image_picker.dart';
 import '../controllers/camera_classifier.dart';
 import '../views/camera_view.dart';
 import 'package:get/get.dart';
+import '../controllers/walk_track_controller.dart';
 
 const _labelsFileName = 'assets/ai_model/labels.txt';
 const _modelFileName = 'assets/ai_model/model.tflite';
@@ -27,7 +28,6 @@ class _CameraRecogniserState extends State<CameraRecogniser> {
   bool _isAnalyzing = false;
   final picker = ImagePicker();
   File? _selectedImageFile;
-
   // Result
   _ResultStatus _resultStatus = _ResultStatus.notStarted;
   String _plantLabel = ''; // Name of Error Message
@@ -132,7 +132,7 @@ class _CameraRecogniserState extends State<CameraRecogniser> {
                 style: const TextStyle(
                     fontSize: 20.0,
                     fontWeight: FontWeight.w600,
-                    color: Color(0xffFFCDD2)))),
+                    color: Colors.white))),
       ),
     );
   }
@@ -165,7 +165,7 @@ class _CameraRecogniserState extends State<CameraRecogniser> {
 
     final resultCategory = _classifier.predict(imageInput);
 
-    final result = resultCategory.score >= 0.5
+    final result = resultCategory.score >= 0.6
         ? _ResultStatus.found
         : _ResultStatus.notFound;
     final plantLabel = resultCategory.label;
@@ -182,13 +182,21 @@ class _CameraRecogniserState extends State<CameraRecogniser> {
 
   Widget _buildResultView() {
     var title = '';
-
-    if (_resultStatus == _ResultStatus.notFound) {
-      title = 'Fail to recognise';
-    } else if (_resultStatus == _ResultStatus.found) {
+    var _walkTrackController=WalkTrackController();
+    var _targetWalk=_walkTrackController.targetWalk.name;
+    if(_targetWalk=='도시락 배달 봉사')
+      _targetWalk='dosirak';
+    else if(_targetWalk=='유기견 산책')
+      _targetWalk='dog';
+    else
+      _targetWalk='';
+    if (_resultStatus == _ResultStatus.found&&_targetWalk==_plantLabel) {
       title = '인증에 성공했습니다!';
       Get.back();
-    } else {
+    } else if (_resultStatus == _ResultStatus.notFound) {
+      title = 'Fail to recognise';
+    }
+    else {
       title = '';
     }
 

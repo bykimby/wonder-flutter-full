@@ -1,8 +1,10 @@
 abstract class Constants {
-  static const String baseUrl = 'https://ku-wonder.shop';
+  //static const String baseUrl = 'https://ku-wonder.shop';
+  static const String baseUrl = 'http://3.39.223.216';
   static const String googleServerClientId =
       '909682122646-bs8lglt16hd5koteoa60m8u7377t5jmi.apps.googleusercontent.com';
   static const String apiVersion = '/api/v1';
+  //static const String apiVersion = '';
   static const String signInUrl = '$apiVersion/auth/signin';
   static const String signUpUrl = '$apiVersion/auth/signup';
   static const String googleSignInUrl = '$apiVersion/auth/google/login';
@@ -35,7 +37,4 @@ abstract class Constants {
   static int minWalkSpeedMeterPerMinute = 50; // 시속 3km/h
   static int maxWalkSpeedMeterPerMinute = 217; // 시속 13km/h
   static double distanceErrorMargin = 0.05;
-
-
-
 }

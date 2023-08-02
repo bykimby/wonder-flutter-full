@@ -144,7 +144,8 @@ class WalkTrackController extends GetxController with LocationTrackerMixin {
     _informServerTask =
         CancelableOperation.fromFuture(_sendServerWalkCompleted());
     await _informServerTask?.value;
-    Get.to(CameraRecogniser());
+    if(targetWalk.name=='도시락 배달 봉사'||targetWalk.name=='유기견 산책')
+      Get.to(CameraRecogniser());
     await Get.dialog(WalkRewardDialog(
       medal: Medal(
           title: '완벽한 한주',
